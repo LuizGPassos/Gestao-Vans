@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+			  src="https://code.jquery.com/jquery-3.6.3.min.js"
+			  integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+			  crossorigin="anonymous">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link href="https://cdn.datatables.net/v/dt/dt-1.13.3/datatables.min.css"/>
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.3/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            let tableMotoristas = criaTableMotoristas('')
+        })
+    </script>
+
+    
+    
+</head>
+<body>
+    <a href="index.html" style="text-decoration: none; color: black;"><h1>Gerenciador de vans</h1></a>
+    <h2>Novo Cadastro</h2>
+    <input type="text"id="test">
+    
+    <p id="novoValor">Empty</p>
+    <button onclick="mudaTexto()">Teste</button>
+    <br>
+    <br>
+    <br>
+    <form action="">
+        <table id="tableMotoristas">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Placa</th>
+                    <th>Modelo da Van</th>
+                    <th>Nome do Motorista</th>
+                    <th>Registro na Prefeitura</th>
+                    <th>Aptidão</th>
+                </tr>
+            </thead>
+        </table>
+        <button id="btn" onclick="criaTableMotoristas()">Ok</button>
+    </form>
+</body>
+</html>
+
+<script>
+
+function mudaTexto(){
+
+    var txtInput = $('#test').val();
+    $('#novoValor').text(`${txtInput}`);
+    $('#test').val('');
+
+}
+
+function criaTableMotoristas(){
+    $('#tableMotoristas').DataTable({
+        "ajax" : {
+            url: 'http://127.0.0.1:5000/tables/motoristas/list',
+            dataSrc: 'data',
+            dataType: 'JSON'
+
+        },
+        "retrieve" : true,
+        "paging": false,
+        "ordering": false,
+        "info" : true,
+        "searching" : false,
+        "autoWidth" : false,
+        "dom" : 'frtip',
+        "columns": [{
+            "data" : "id",
+            "width" : 200,
+            "className" : "text-center",
+            "orderable" : true,
+        },
+        {
+            "data" : "placa",
+            "width" : 200,
+            "className" : "text-center",
+            "orderable" : true,
+        },
+        {
+            "data" : "modelo_van",
+            "width" : 200,
+            "className" : "text-center",
+            "orderable" : true,
+        },
+        {
+            "data" : "nome",
+            "width" : 200,
+            "className" : "text-center",
+            "orderable" : true,
+        },
+        {
+            "data" : "registro_prefeitura",
+            "width" : 200,
+            "className" : "text-center",
+            "orderable" : true,
+        },
+        {
+            "data" : "aptidao",
+            "width" : 200,
+            "className" : "text-center",
+            "orderable" : true,
+        },
+    ]
+
+    })
+}
+
+</script>
+
