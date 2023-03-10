@@ -12,11 +12,12 @@
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link href="https://cdn.datatables.net/v/dt/dt-1.13.3/datatables.min.css"/>
+    <link rel="stylesheet" href="cadastros.css">
     <script src="https://cdn.datatables.net/v/dt/dt-1.13.3/datatables.min.js"></script>
 
     <script>
         $(document).ready(function(){
-            let tableMotoristas = criaTableMotoristas('')
+            let tableMotoristas = criaTableMotoristas()
         })
     </script>
 
@@ -26,10 +27,18 @@
 <body>
     <a href="index.html" style="text-decoration: none; color: black;"><h1>Gerenciador de vans</h1></a>
     <h2>Novo Cadastro</h2>
-    <input type="text"id="test">
+
+    <form action="">
+        <p>Id</p><input type="text" id="id_mot">
+        <p>Placa</p><input type="text" id="placa_mot">
+        <p>Modelo da Van</p> <input type="text" id="modelo_van_mot">
+        <p>Nome</p><input type="text" id="nome_mot">
+        <p>Registro Prefeitura</p><input type="text" id="registro_prefeitura_mot">
+        <p>Aptidao</p><input type="text" id="aptidao_mot">
+    </form>
+    <br>
+    <button onclick="salvaNovoMotorista()">Registrar</button>
     
-    <p id="novoValor">Empty</p>
-    <button onclick="mudaTexto()">Teste</button>
     <br>
     <br>
     <br>
@@ -46,18 +55,44 @@
                 </tr>
             </thead>
         </table>
-        <button id="btn" onclick="criaTableMotoristas()">Ok</button>
     </form>
 </body>
 </html>
 
 <script>
 
-function mudaTexto(){
+function salvaNovoMotorista(){
 
-    var txtInput = $('#test').val();
-    $('#novoValor').text(`${txtInput}`);
-    $('#test').val('');
+    var id = $('#id_mot').val()
+    var placa = $('#placa_mot').val()
+    var modelo_van = $('#modelo_van_mot').val()
+    var nome = $('#nome_mot').val()
+    var registro_prefeitura = $('#registro_prefeitura_mot').val()
+    var aptidao = $('#aptidao_mot').val()
+
+    $.ajax({
+        type: "POST",
+        url: 'http://127.0.0.1:5000/tables/motoristas-cadastro/save',
+        dataType: 'JSON',
+        data:  {
+            id : id,
+            placa : placa,
+            nome : nome,
+            registro_prefeitura : registro_prefeitura,
+            aptidao : aptidao
+        }
+        ,
+        success: function (response) {
+            if (response.status_code == 200) {
+                alert('Cadastrado com sucesso!')
+            }
+            else {
+                alert('Ocorreu um erro')
+            }
+        }
+    });
+
+
 
 }
 

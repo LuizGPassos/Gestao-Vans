@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_restx import Api, Resource, reqparse
 import mysql.connector
 from flask_cors import CORS, cross_origin
+from sets import request_handler
 
 app = Flask(__name__)
 CORS(app)
@@ -57,6 +58,39 @@ class motoristas(Resource):
                 })
                 resp.headers.add('Access-Control-Allow-Origin', '*')
                 return resp
+            
+@api.route('/tables/motoristas-cadastro/<string:func>')
+class motoristas(Resource):
+    def post(self,func):
+        
+        if func == 'save':
+
+           if request.method == 'POST': 
+
+                id = request.form.get('id', None)
+                placa = request.form.get('placa', None)
+                modelo_van = request.form.get('modelo_van', None)
+                nome = request.form.get('nome', None)
+                registro_prefeitura = request.form.get('registro_prefeitura', None)
+                aptidao = request.form.get('aptidao', None)
+
+                print(id)
+
+                try:
+                    query = '''insert into motoristas values (
+                    :1,
+                    :2,
+                    :3,
+                    :4,
+                    :5,
+                    :6
+                    )'''
+                    cursor.execute(query, [id,placa,modelo_van,nome,registro_prefeitura,aptidao])
+                except:
+                    return 'error'
+                else:
+                    mydb.commit()
+                    return 'sucesso'
     
 
 if __name__ == '__main__':
